@@ -1,9 +1,10 @@
-
 *.sw*
 
 #################
 ## Eclipse
 #################
+
+gen/
 
 *.pydevproject
 .project
