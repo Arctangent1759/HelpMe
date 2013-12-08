@@ -70,7 +70,6 @@ handle={
         res.end();
         pingAll(auth);
     },
-
 }
 
 function pingAll(auth){
