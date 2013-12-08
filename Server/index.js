@@ -10,7 +10,7 @@ var globals = {}
 
 async.series([
         function initDb(next){
-            var mongoClient = new mongo.MongoClient(new mongo.Server(constants.app.hostname, constants.db.port));
+            var mongoClient = new mongo.MongoClient(new mongo.Server(constants.db.hostname, constants.db.port));
 
             mongoClient.open(function(err,mongoClient){
                 var db = mongoClient.db(constants.db.name);
