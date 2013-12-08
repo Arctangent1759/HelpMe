@@ -9,6 +9,7 @@ HelpMe
     - urgency levels: "I need to borrow a lawnmower" vs. "OH MY GOD MY HOUSE IS ON FIRE"
     - karma for helping people
     - some kind of karma leaderboard
+
 Server Dependencies
 -------------------
 + mongo
