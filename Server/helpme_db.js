@@ -84,6 +84,14 @@ function HelpMeDb(db,auth){
             }
         }); 
     }
+
+    this.getOwner = function(id, callback){
+        objId = new ObjectID(id)
+        this.collection.findOne({"_id": objId}, function(err, item){
+            callback(item.username);
+            console.log("processed username");
+        });
+    }
 }
 function karmaFunc(task){
     console.log("---------------")

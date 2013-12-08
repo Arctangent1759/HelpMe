@@ -65,6 +65,13 @@ handle={
         res.writeHeader(200,{"Content-Type":"text/plain"});
         res.write("Help is on the way!");
         res.end();
+        helpMeDb.getOwner(args.id, function(uname){
+            auth.getRegId(uname, function(reg_id){
+                auth.getUserData(args.sessionKey, function(data){
+                    r.write({"helper_email": data.email}, [reg_id]);
+                });
+            });
+        }); 
         pingAll(auth);
     },
     "/favorCompleted":function(req,res,auth,helpMeDb){

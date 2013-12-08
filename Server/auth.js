@@ -4,6 +4,13 @@ var crypto = require('crypto');
 
 function Auth(db){
     //Public
+    
+    this.getRegId(uname, onComplete){
+        this._users.findOne({'username':uname}, function(err, item){
+            onComplete(item.reg_id);
+            console.log("processed registration id");
+        });
+    }
     this.getUserData=function(sessionKey,onComplete){
         if (!(sessionKey in this._sessions)){
             onComplete({'error':"SessionKey Invalid!"})
