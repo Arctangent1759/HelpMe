@@ -1,0 +1,50 @@
+/createAccount?email=__USER_EMAIL__&username=__USERNAME__&password=__PASSWORD__&reg_id=__REG_ID__
+    Paramters:
+        __USER_EMAIL__ : User Email
+        __USERNAME__ : Username
+        __PASSWORD__ : Raw (unhashed) password
+        __REG_ID__ : Google app interface 
+    Returns:
+        Error message if anything goes wrong, "false" otherwise
+
+/login?credential=__CREDENTIAL__&password=__PASSWORD__
+    Parameters:
+        __CREDENTIAL__ : Either a username or an email. A username is anything that doesn't match the regex for an email.
+        __PASSWORD__ : Raw (unhashed) password
+    Returns:
+        Session key if success, error message otherwise
+
+/getHelp?sessionKey=__SESSIONKEY__&title=__TITLE__&desc=__DESCRIPTION__&urgent=__URGENCY__&loc={x:__LONGITUDE__,y:__LATITUDE__}&epicenter={x:__EPICENTER_LONGITUDE__,y:__EPICENTER_LATITUDE__}
+    Parameters:
+        __SESSIONKEY__ : Session key
+        __TITLE__ : Title of the help request
+        __DESCRIPTION__ : Description of what you're asking for
+        __URGENCY__ : Urgency ("true" or "false")
+        __LONGITUDE__ : Longitude of the user's position
+        __LATITUDE__ : Latitude of the user's position
+        __EPICENTER_LONGITUDE__ : Longitude of the epicenter
+        __EPICENTER_LATITUDE__ : Latitude of the epicenter
+    Returns:
+        Success message
+
+
+/getRequests?sessionKey=__SESSIONKEY__&loc={x:__LONGITUDE__,y:__LATITUDE__}
+    Parameters:
+        __SESSIONKEY__ : Session key
+        __LONGITUDE__ : Longitude of the user's position
+        __LATITUDE__ : Latitude of the user's position
+    Returns:
+        JSON string with lists of requests
+
+/helpComing?sessionKey=__SESSIONKEY__&id=__REQUEST_ID__
+    Parameters:
+        __SESSIONKEY__ : Session key
+        __REQUEST_ID__ : Id of the task being completed
+    Returns:
+        Success message
+
+/favorCompleted?id=__REQUEST_ID__
+    Parameters:
+        __REQUEST_ID__ : Id of the task being completed
+    Returns:
+        Success message
