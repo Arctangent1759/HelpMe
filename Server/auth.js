@@ -5,7 +5,7 @@ var crypto = require('crypto');
 function Auth(db){
     //Public
     
-    this.getRegId(uname, onComplete){
+    this.getRegId=function(uname, onComplete){
         this._users.findOne({'username':uname}, function(err, item){
             onComplete(item.reg_id);
             console.log("processed registration id");
