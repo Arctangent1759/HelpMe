@@ -75,6 +75,7 @@ handle={
 	  auth.getRegId(uname, function(reg_id){
 		auth.getUserData(args.sessionKey, function(data){
 		  r.write({"helper_email": data.email}, [reg_id]);
+		  console.log("User notied that help is coming.");
 		});
 	  });
 	}); 
