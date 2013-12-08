@@ -55,7 +55,6 @@ function HelpMeDb(db){
             if(err){
                 console.log("Error updating helpComing field: " + err);
             }
-            console.log("halp is on the way");
         }); 
     }
 
@@ -63,7 +62,7 @@ function HelpMeDb(db){
         objId = new ObjectID(id); 
         this.collection.update( {'_id': objId}, {$set: {'active':false}}, function(err, item){
             if(err){
-                console.log("Error updating helpComing field: " + err);
+                console.log("Error updating active field: " + err);
             }
         }); 
     }
