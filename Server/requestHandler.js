@@ -12,7 +12,7 @@ handle={
         var args = querystring.parse(url.parse(req.url).query);
         auth.newUser(args.email, args.username, args.password, args.reg_id, function(result){
             res.writeHeader(200,{"Content-Type":"text/plain"});
-            res.write(result);
+            res.write(""+result.error);
             res.end();
         })
     },
@@ -20,8 +20,13 @@ handle={
         var args = querystring.parse(url.parse(req.url).query);
         auth.authenticate(args.credential,args.password,function(result){
             res.writeHeader(200,{"Content-Type":"text/plain"});
-            res.write(result);
+            if (result.error){
+                res.write(result.error)
+            }else{
+                res.write(result.sessionKey)
+            }
             res.end();
+
         })
     },
     "/getHelp":function(req,res,auth,helpMeDb){

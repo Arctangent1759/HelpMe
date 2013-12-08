@@ -4,6 +4,31 @@ var crypto = require('crypto');
 
 function Auth(db){
     //Public
+    this.getUserData=function(sessionKey,onComplete){
+        if (!(sessionKey in this._sessions)){
+            onComplete({'error':"SessionKey Invalid!"})
+            return
+        }
+        var sessions = this._sessions;
+        this._users.findOne({"email":sessions[sessionKey]},function(err,item){
+            onComplete({
+                'error':false,
+                'email':item.email,
+                'username':item.username,
+                'karma':item.karma,
+                'reg_id':item.reg_id,
+            });
+        });
+    }
+    this.updateKarma=function(sessionKey,onComplete){
+        if (!(sessionKey in this._sessions)){
+            onComplete({'error':"SessionKey Invalid!"})
+            return
+        }
+        var sessions = this._sessions;
+        this._users.findOne({"email":sessions[sessionKey]},function(err,item){
+        })
+    }
     this.newUser=function(email, username, password, reg_id, onComplete){
         if (onComplete==undefined){
             onComplete=function(){}
@@ -72,9 +97,10 @@ function Auth(db){
             }else{
                 if (hash(password,item.salt)==item.password){
                     //Successful Login. Return session key.
-                    onComplete({"error":false,"sessionKey":makeSessionKey(item.email,item.username,sessions,userToSession)})
+                    var key = makeSessionKey(item.email,item.username,sessions,userToSession);
+                    onComplete({"error":false,"sessionKey":key});
                 }else{
-                    onComplete({"error":'Incorrect password',"sessionKey":false})
+                    onComplete({"error":'Incorrect password',"sessionKey":false});
                 }
             }
         });
