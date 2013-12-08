@@ -10,3 +10,7 @@ HelpMe
     - karma for helping people
     - some kind of karma leaderboard
 
+Server Dependencies
+-------------------
++ mongo
++ npm-gcm (google cloud messaging)
