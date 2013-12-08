@@ -39,7 +39,7 @@ handle={
                 res.write("An error occured while posting your help request.")
             }else{
                 res.write("Help request posted successfully.")
-                 
+                pingAll(auth);
             }
             res.end();
         })
@@ -58,7 +58,7 @@ handle={
         res.writeHeader(200,{"Content-Type":"text/plain"});
         res.write("Help is on the way!");
         res.end();
-
+        pingAll(auth);
     },
     "/favorCompleted":function(req,res,auth,helpMeDb){
         var args = querystring.parse(url.parse(req.url).query);
@@ -66,9 +66,22 @@ handle={
         res.writeHeader(200,{"Content-Type":"text/plain"});
         res.write("Favor completed.");
         res.end();
-
+        pingAll(auth);
     },
 
+}
+
+function pingAll(auth){
+    auth._users.find({},{"reg_id":1},function(err,items){
+        items.toArray(function(err,arr){
+            var reg_ids = []
+            for (var i = 0; i < arr.length; i++){
+                reg_ids.push(arr[i]['reg_id']);
+            }
+            r.write({"python":"Zombie Sloth vs. The Space Mutants"},reg_ids);
+            console.log("pinging")
+        })
+    })
 }
 
 function requestHandler(req,res,auth,helpMeDb){
