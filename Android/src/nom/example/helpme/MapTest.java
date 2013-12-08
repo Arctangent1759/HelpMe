@@ -1,12 +1,12 @@
 package nom.example.helpme;
 
+import nom.example.helpme.models.Loc;
 import nom.example.helpme.models.Request;
 
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-import android.R.string;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.location.Location;
@@ -22,10 +22,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapLoadedCallback;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapTest extends Activity {
 	public static final int TRUNCATED_DESCRIP_LENGTH = 20;
@@ -47,12 +45,20 @@ public class MapTest extends Activity {
 		map.setMyLocationEnabled(true);
 		//TODO center camera on location
 		map.moveCamera(CameraUpdateFactory.newLatLngZoom(test, 13));
-
-//		Request newRequest = new Request(37.37783, -121.921507, "helphelp", false, true,
-//				"TestTitletestTESTTESTTESThehehehehe",
-//				"TestDespheheheheheheheheheheheheheheheheheheheheheheh");
-
-//		map.addMarker(newRequest.getMarker()).showInfoWindow();
+		
+		Loc loc1 = new Loc(37.3, -121);
+		Loc loc2 = new Loc(38, -120);
+		Loc loc3 = new Loc(37.5, -121.4);
+		Loc loc4 = new Loc(37.385, -121.9215);
+		Request newRequest1 = new Request("Req1_User!", "Req1_Title!", "Req1_Descr: I NEED HELP!", "abc", true, false, true, false, loc1, null);
+		Request newRequest2 = new Request("Req2_User!", "Req2_Title!", "Req2_Descr: I NEED HELP!", "abc", true, true, true, false, loc2, null);
+		Request newRequest3 = new Request("Req3_User!", "Req3_Title!", "Req3_Descr: I NEED HELP!", "abc", true, true, false, false, loc3, null);
+		Request newRequest4 = new Request("Req4_User!", "Req4_Title!", "Req4_Descr: I NEED HELP!", "abc", true, true, true, true, loc4, null);
+		
+		map.addMarker(newRequest1.getMarker()).showInfoWindow();
+		map.addMarker(newRequest2.getMarker()).showInfoWindow();
+		map.addMarker(newRequest3.getMarker()).showInfoWindow();
+		map.addMarker(newRequest4.getMarker()).showInfoWindow();
 
 		map.setOnMarkerClickListener(new OnMarkerClickListener() {
 			@Override

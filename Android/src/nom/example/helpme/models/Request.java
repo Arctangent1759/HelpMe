@@ -78,8 +78,5 @@ public class Request {
 		return marker;
 	}
 
-	public class Loc 
-	{
-		public double x, y;
-	}
+
 }
