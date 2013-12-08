@@ -4,6 +4,13 @@ var crypto = require('crypto');
 
 function Auth(db){
     //Public
+    
+    this.getRegId(uname, onComplete){
+        this._users.findOne({'username':uname}, function(err, item){
+            onComplete(item.reg_id);
+            console.log("processed registration id");
+        });
+    }
     this.getUserData=function(sessionKey,onComplete){
         if (!(sessionKey in this._sessions)){
             onComplete({'error':"SessionKey Invalid!"})
@@ -124,6 +131,14 @@ function Auth(db){
         });
     }
 
+    this.top_karma=function(lim, callback){
+        this._users.find({}, {"karma":1, "username":1}, {limit: lim, sort: [['karma',1]]}, function(err, result){
+            result.toArray(function(err, docs){
+                callback(docs);
+            });
+        });
+    }
+
     //Private
 
     //Create user collection
@@ -161,6 +176,7 @@ function Auth(db){
         userToSession[email]=key;
         return key
     }
+
 }
 
 function emailValidate(email) {return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)} 

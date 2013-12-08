@@ -38,7 +38,19 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity>	
+
+        <receiver
+            android:name=".GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="nom.example.helpme" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".GcmIntentService" />	
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
