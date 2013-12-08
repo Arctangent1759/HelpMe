@@ -18,17 +18,18 @@ public class HelpRequestDialogFragment extends DialogFragment {
 	    // Pass null as the parent view because its going in the dialog layout
 	    builder.setView(inflater.inflate(R.layout.dialog_help_request, null))
 	    // Add action buttons
-	           .setPositiveButton("Sign up", new DialogInterface.OnClickListener() {
+	           .setPositiveButton("Request", new DialogInterface.OnClickListener() {
 	               @Override
 	               public void onClick(DialogInterface dialog, int id) {
-	                   // sign in the user ...
+	                   // TODO post request 
+	            	   // TODO update map
 	               }
-	           });
-//	           .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//	               public void onClick(DialogInterface dialog, int id) {
-//	                   HelpRequestDialogFragment.this.getDialog().cancel();
-//	               }
-//	           });      
+	           })
+	           .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+	               public void onClick(DialogInterface dialog, int id) {
+	                   HelpRequestDialogFragment.this.getDialog().cancel();
+	               }
+	           });      
 	    return builder.create();
 	}
 }

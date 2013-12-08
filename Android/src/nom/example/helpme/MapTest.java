@@ -24,20 +24,20 @@ public class MapTest extends Activity {
 
 		GoogleMap map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 
-		//		LatLng paypal = new LatLng(37.37783, -121.921507);
+		// LatLng paypal = new LatLng(37.37783, -121.921507);
 		LatLng test = new LatLng(37.385, -121.921507);
 
 		map.setMyLocationEnabled(true);
+		//TODO center camera on location
 		map.moveCamera(CameraUpdateFactory.newLatLngZoom(test, 13));
 
 		map.addMarker(new MarkerOptions().title("Paypal").snippet("The most blah blah.").position(
 				test).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))).showInfoWindow();
 
 		map.setOnMarkerClickListener(new OnMarkerClickListener() {
-
 			@Override
 			public boolean onMarkerClick(Marker marker) {
-				//process marker here
+				//TODO process when marker is clicked here
 				return false;
 			}
 		});
@@ -52,4 +52,10 @@ public class MapTest extends Activity {
 			}
 		});
 	}
+	
+	String username = "";
+	//TODO check sharedpref for username, prompt for login if missing
+	
+	
+	
 }
