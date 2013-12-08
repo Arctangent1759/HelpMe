@@ -5,9 +5,14 @@ r = new R();
 
 handle={
     "/":function(req,res,auth,helpMeDb){
-        res.writeHeader(200,{"Content-Type":"text/plain"});
+        var karma_callback = function(data){
+           res.writeHeader(200, {"Content-Type": "text/html"});
+           res.write(data); 
+        }
+        auth.top_karma(10, karma_callback); 
+        /**res.writeHeader(200,{"Content-Type":"text/plain"});
         res.write("This page should not see the light of day.");
-        res.end();
+        res.end();**/
     },
     "/createAccount":function(req,res,auth,helpMeDb){
         //email, username, password, reg_id
