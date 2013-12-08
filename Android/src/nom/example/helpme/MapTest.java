@@ -1,5 +1,6 @@
 package nom.example.helpme;
 
+import nom.example.helpme.models.Request;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,7 +17,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapTest extends Activity {
-
+	public static final int TRUNCATED_DESCRIP_LENGTH = 20;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -31,14 +32,27 @@ public class MapTest extends Activity {
 		//TODO center camera on location
 		map.moveCamera(CameraUpdateFactory.newLatLngZoom(test, 13));
 
-		map.addMarker(new MarkerOptions().title("Paypal").snippet("The most blah blah.").position(
-				test).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))).showInfoWindow();
-
+		Request newRequest = new Request(37.37783, -121.921507, "helphelp", false, true, "TestTitletestTESTTESTTESTheheheheheheheheheheheheheheheheheheheheheheheheheheheh", "TestDesp");
+		
+		map.addMarker(newRequest.getMarker()).showInfoWindow();
+		
+		
+		
 		map.setOnMarkerClickListener(new OnMarkerClickListener() {
 			@Override
+			//Compares the current username against the username attached to snippet. Returns true when they match, indicating
+			//that the marker is mine. 
 			public boolean onMarkerClick(Marker marker) {
-				//TODO process when marker is clicked here
-				return false;
+				if (username.equals(marker.getSnippet().substring(TRUNCATED_DESCRIP_LENGTH + 6)))
+				{
+					System.out.print("itworked!!");
+					return true;
+				}
+				else
+				{
+					System.out.print("itdidn'twork!!");
+					return false;
+				}
 			}
 		});
 
@@ -54,6 +68,7 @@ public class MapTest extends Activity {
 	}
 	
 	String username = "";
+	
 	//TODO check sharedpref for username, prompt for login if missing
 	
 	
