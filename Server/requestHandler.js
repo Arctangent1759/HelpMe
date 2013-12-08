@@ -31,16 +31,41 @@ handle={
     },
     "/getHelp":function(req,res,auth,helpMeDb){
         var args = querystring.parse(url.parse(req.url).query);
-        res.writeHeader(200,{"Content-Type":"text/plain"});
-        res.write("This page should not see the light of day.");
-        res.end();
+        helpMeDb.update(args.sessionKey, args.title, args.desc, args.urgent=="true", JSON.parse(args.loc), JSON.parse(args.epicenter), function(err){
+            res.writeHeader(200,{"Content-Type":"text/plain"});
+            if (err){
+                res.write("An error occured while posting your help request.")
+            }else{
+                res.write("Help request posted successfully.")
+            }
+            res.end();
+        })
     },
     "/getRequests":function(req,res,auth,helpMeDb){
         var args = querystring.parse(url.parse(req.url).query);
-        res.writeHeader(200,{"Content-Type":"text/plain"});
-        res.write("This page should not see the light of day.");
-        res.end();
+        helpMeDb.get(args.sessionKey, JSON.parse(args.loc), function(docs){
+            res.writeHeader(200,{"Content-Type":"text/plain"});
+            res.write(JSON.stringify(docs));
+            res.end();
+        })
     },
+    "/helpComing":function(req,res,auth,helpMeDb){
+        var args = querystring.parse(url.parse(req.url).query);
+        helpMeDb.helpComing(args.sessionKey,args.id);
+        res.writeHeader(200,{"Content-Type":"text/plain"});
+        res.write("Help is on the way!");
+        res.end();
+
+    },
+    "/favorCompleted":function(req,res,auth,helpMeDb){
+        var args = querystring.parse(url.parse(req.url).query);
+        helpMeDb.favorCompleted(args.id);
+        res.writeHeader(200,{"Content-Type":"text/plain"});
+        res.write("Favor completed.");
+        res.end();
+
+    },
+
 }
 
 function requestHandler(req,res,auth,helpMeDb){

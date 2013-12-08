@@ -7,7 +7,7 @@ function Auth(db){
     this.getUserData=function(sessionKey,onComplete){
         if (!(sessionKey in this._sessions)){
             onComplete({'error':"SessionKey Invalid!"})
-            return
+                return
         }
         var sessions = this._sessions;
         this._users.findOne({"email":sessions[sessionKey]},function(err,item){
@@ -20,14 +20,32 @@ function Auth(db){
             });
         });
     }
-    this.updateKarma=function(sessionKey,onComplete){
+    this.incrementKarma=function(sessionKey,amt,onComplete){
         if (!(sessionKey in this._sessions)){
-            onComplete({'error':"SessionKey Invalid!"})
-            return
+            onComplete({'error':"SessionKey Invalid!"});
+            return;
         }
         var sessions = this._sessions;
+        var users = this._users;
         this._users.findOne({"email":sessions[sessionKey]},function(err,item){
+            users.update({"email":sessions[sessionKey]},{"$set":{"karma":item.karma+amt}},function(err,item){
+                onComplete({'error':false});
+            })
         })
+    }
+    this.addActiveTask=function(sessionKey,id){
+        if (!this._activeTasks[sessionKey]){
+            this._activeTasks[sessionKey]=[]
+        }
+        this._activeTasks[sessionKey].push({'timestamp':new Date(), 'taskId':id})
+    }
+    this.removeActiveTask=function(sessionKey,id){
+        for (var i = 0; i < this._activeTasks[sessionKey].length; i++){
+            if (this._activeTasks[sessionKey][i].taskId==id){
+                this._activeTasks[sessionKey].splice(i);
+                break;
+            }
+        }
     }
     this.newUser=function(email, username, password, reg_id, onComplete){
         if (onComplete==undefined){
@@ -90,6 +108,7 @@ function Auth(db){
         var makeSessionKey = this._makeSessionKey;
         var sessions = this._sessions;
         var userToSession = this._userToSession;
+        var activeTasks = this._activeTasks;
 
         this._users.findOne(query,function(err,item){
             if (!item){
@@ -97,7 +116,7 @@ function Auth(db){
             }else{
                 if (hash(password,item.salt)==item.password){
                     //Successful Login. Return session key.
-                    var key = makeSessionKey(item.email,item.username,sessions,userToSession);
+                    var key = makeSessionKey(item.email,item.username,sessions,userToSession,activeTasks);
                     onComplete({"error":false,"sessionKey":key});
                 }else{
                     onComplete({"error":'Incorrect password',"sessionKey":false});
@@ -115,6 +134,9 @@ function Auth(db){
     this._sessions={}
     this._userToSession={}
 
+    //Extending Data
+    this._activeTasks={}
+
     this._hash=function(s,salt){
         var inStr=s+salt;
         var sha = crypto.createHash('sha1');
@@ -125,16 +147,18 @@ function Auth(db){
         //Just add pepper...
         return (new Date()).getTime()
     }
-    this._makeSessionKey=function(email, username,sessions,userToSession){
+    this._makeSessionKey=function(email, username,sessions,userToSession,activeTasks){
         if (userToSession[email]!=null){
-            delete sessions[userToSession[email]]
-                delete userToSession[email]
+            delete sessions[userToSession[email]];
+            delete activeTasks[userToSession[email]];
+            delete userToSession[email];
         }
         var key;
         do{
             key = ((new Date()).getTime()+Math.floor(Math.random()*579258932)).toString(16)
         }while (sessions[key]!=null);
         sessions[key]=email;
+        activeTasks[key]=[];
         userToSession[email]=key;
         return key
     }

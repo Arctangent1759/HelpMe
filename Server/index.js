@@ -15,7 +15,7 @@ async.series([
             mongoClient.open(function(err,mongoClient){
                 var db = mongoClient.db(constants.db.name);
                 globals.auth = new Auth(db);
-                globals.helpMeDb = new HelpMeDb(db);
+                globals.helpMeDb = new HelpMeDb(db,globals.auth);
                 next();
             })
         },
