@@ -1,10 +1,10 @@
 var gcm = require('node-gcm');
 function Response(){
-    this.gcmKey = 'AIzaSyA2s54h6S-taxs3Rm8wvm6fIW74wJOQqQ4'; // API Key
+    this.gcmKey = 'AIzaSyCsXUPS7fPyGt5TD-hxTCVXjU8UvHyqmcU'; // API Key
     
     this.write = function(msgData, regId){
         var message = new gcm.Message({
-            collapseKey: 'Pending Help Requests',
+            //collapseKey: 'Pending Help Requests',
             data: msgData
         });
         var sender = new gcm.Sender(this.gcmKey);
@@ -13,7 +13,9 @@ function Response(){
             if(err){
                 console.log("Error sending message to client");
             }
-        }
+            console.log(err);
+            console.log(result);
+        });
     }
      
 }
