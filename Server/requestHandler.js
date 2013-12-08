@@ -1,5 +1,7 @@
 var url = require('url')
 var querystring = require('querystring')
+var R = require('./response.js').Response
+r = new R();
 
 handle={
     "/":function(req,res,auth,helpMeDb){
@@ -37,6 +39,7 @@ handle={
                 res.write("An error occured while posting your help request.")
             }else{
                 res.write("Help request posted successfully.")
+                 
             }
             res.end();
         })
