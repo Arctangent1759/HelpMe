@@ -126,6 +126,7 @@ public class MapTest extends Activity {
 		for (Request request : requests) {
 			map.clear();
 			Log.d("stuff", request._id + " " + request.loc.x);
+			request.setMine(request.username.equals(username));
 			map.addMarker(request.getMarker()).showInfoWindow();
 		}
 	}
