@@ -16,13 +16,13 @@ function HelpMeDb(db,auth){
         this._auth.getUserData(sessionkey,function(data){
             newFavor = { 
                 'username': data.username,
-                'title': title,
-                'desc': desc,
-                'urgent': urgent,
-                'loc': loc,
-                'epicenter': epicenter,
-                'active': true,
-                'helpComing':false
+            'title': title,
+            'desc': desc,
+            'urgent': urgent,
+            'loc': loc,
+            'epicenter': epicenter,
+            'active': true,
+            'helpComing':false
             }
             collection.insert(newFavor, function(err,item){
                 onComplete(err);
@@ -72,8 +72,8 @@ function HelpMeDb(db,auth){
 
     this.favorCompleted = function(id){
         for (var i = 0; i < this._taskMapping[id].length; i++){
-            this._auth.removeActiveTask(this._taskMapping[id][i],id);
-            this._auth.incrementKarma(this._taskMapping[id][i],100,function(){})//TODO: implement karma function
+            var task = this._auth.removeActiveTask(this._taskMapping[id][i],id);
+            this._auth.incrementKarma(this._taskMapping[id][i],karmaFunc(task[0]),function(){})//TODO: implement karma function
         }
         delete this._taskMapping[id];
 
@@ -84,6 +84,13 @@ function HelpMeDb(db,auth){
             }
         }); 
     }
+}
+function karmaFunc(task){
+    console.log("---------------")
+    console.log(task);
+    console.log(((new Date())-task['timestamp']));
+    console.log(100.0+3600000.0/((new Date())-task['timestamp']));
+    return 100.0+3600000.0/((new Date())-task['timestamp']);
 }
 
 exports.HelpMeDb = HelpMeDb;

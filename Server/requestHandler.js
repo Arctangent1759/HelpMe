@@ -33,6 +33,8 @@ handle={
     },
     "/getHelp":function(req,res,auth,helpMeDb){
         var args = querystring.parse(url.parse(req.url).query);
+        console.log(args.loc)
+        console.log(args.epicenter)
         helpMeDb.update(args.sessionKey, args.title, args.desc, args.urgent=="true", JSON.parse(args.loc), JSON.parse(args.epicenter), function(err){
             res.writeHeader(200,{"Content-Type":"text/plain"});
             if (err){
@@ -47,7 +49,7 @@ handle={
     "/getRequests":function(req,res,auth,helpMeDb){
         var args = querystring.parse(url.parse(req.url).query);
         helpMeDb.get(args.sessionKey, JSON.parse(args.loc), function(docs){
-            res.writeHeader(200,{"Content-Type":"text/plain"});
+            res.writeHeader(200,{"Content-Type":"application/json"});
             res.write(JSON.stringify(docs));
             res.end();
         })

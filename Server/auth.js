@@ -42,8 +42,7 @@ function Auth(db){
     this.removeActiveTask=function(sessionKey,id){
         for (var i = 0; i < this._activeTasks[sessionKey].length; i++){
             if (this._activeTasks[sessionKey][i].taskId==id){
-                this._activeTasks[sessionKey].splice(i);
-                break;
+                return this._activeTasks[sessionKey].splice(i);
             }
         }
     }
